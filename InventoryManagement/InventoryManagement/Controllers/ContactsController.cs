@@ -7,111 +7,110 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using InventoryManagement.Models;
-using InventoryManagement.Models.Database;
 
 namespace InventoryManagement.Controllers
 {
-    public class ProductController : Controller
+    public class ContactsController : Controller
     {
- //       private InventoryDBEntities db = new InventoryDBEntities();
+        private InventoryDBEntities db = new InventoryDBEntities();
 
-        // GET: Product
+        // GET: Contacts
         public ActionResult Index()
         {
-            List<Product> products = ProductService.GetProducts();
-            return View(products);
+            return View(db.Contacts.ToList());
         }
-/*
-        // GET: Product/Details/5
+
+        // GET: Contacts/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            Contact contact = db.Contacts.Find(id);
+            if (contact == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(contact);
         }
 
-        // GET: Product/Create
+        // GET: Contacts/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Product/Create
+        // POST: Contacts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,Type,Name,Units")] Product product)
+        public ActionResult Create([Bind(Include = "ContactID,FirstName,LastName,EmailAddress,Street,Province,Country,ZipCode")] Contact contact)
         {
             if (ModelState.IsValid)
             {
-                db.Products.Add(product);
+                db.Contacts.Add(contact);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(product);
+            return View(contact);
         }
-        */
-        // GET: Product/Edit/5
+
+        // GET: Contacts/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = ProductService.GetProductById(id.GetValueOrDefault());
-            if (product == null)
+            Contact contact = db.Contacts.Find(id);
+            if (contact == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(contact);
         }
 
-        // POST: Product/Edit/5
+        // POST: Contacts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductID,Type,Name,Units")] Product product)
+        public ActionResult Edit([Bind(Include = "ContactID,FirstName,LastName,EmailAddress,Street,Province,Country,ZipCode")] Contact contact)
         {
             if (ModelState.IsValid)
             {
-                ProductService.EditProduct(product);
+                db.Entry(contact).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(product);
+            return View(contact);
         }
-        /*
-        // GET: Product/Delete/5
+
+        // GET: Contacts/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            Contact contact = db.Contacts.Find(id);
+            if (contact == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(contact);
         }
 
-        // POST: Product/Delete/5
+        // POST: Contacts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
+            Contact contact = db.Contacts.Find(id);
+            db.Contacts.Remove(contact);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -123,6 +122,6 @@ namespace InventoryManagement.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }  */
+        }
     }
 }
