@@ -26,9 +26,10 @@ namespace InventoryManagement
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
-                      "~/Content/Sand.css",
-                      "~/Content/Sand.min.css"));
+                      "~/Content/site.css"
+             //         "~/Content/Sand.css",
+             //         "~/Content/Sand.min.css"
+             ));
         }
     }
 }

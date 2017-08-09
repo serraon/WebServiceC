@@ -23,7 +23,7 @@ namespace InventoryManagement.Models
     
         public int OrderID { get; set; }
         public int VendorID { get; set; }
-        public System.DateTime DateOrdered { get; set; }
+        public Nullable<System.DateTime> DateOrdered { get; set; }
         public Nullable<System.DateTime> DateReceived { get; set; }
         public double TotalPrice { get; set; }
         public int Status { get; set; }

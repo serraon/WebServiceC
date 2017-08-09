@@ -28,8 +28,8 @@
     </Key>
     <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="VendorID" Type="int" Nullable="false" />
-    <Property Name="DateOrdered" Type="datetime" Nullable="false" />
-    <Property Name="DateReceived" Type="datetime" />
+    <Property Name="DateOrdered" Type="date" />
+    <Property Name="DateReceived" Type="date" />
     <Property Name="TotalPrice" Type="float" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
   </EntityType>
@@ -57,11 +57,12 @@
       <PropertyRef Name="QuoteID" />
     </Key>
     <Property Name="QuoteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Date" Type="datetime" />
+    <Property Name="Date" Type="date" />
     <Property Name="VendorID" Type="int" />
     <Property Name="ProductID" Type="int" />
     <Property Name="TotalCost" Type="float" />
     <Property Name="OrderID" Type="int" />
+    <Property Name="QuoteName" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="QuoteLine">
     <Key>

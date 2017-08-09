@@ -61,6 +61,7 @@
     <EntitySetMapping Name="Quotes">
       <EntityTypeMapping TypeName="InventoryDBModel.Quote">
         <MappingFragment StoreEntitySet="Quote">
+          <ScalarProperty Name="QuoteName" ColumnName="QuoteName" />
           <ScalarProperty Name="QuoteID" ColumnName="QuoteID" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="VendorID" ColumnName="VendorID" />

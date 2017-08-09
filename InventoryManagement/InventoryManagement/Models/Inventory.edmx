@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="InventoryDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="InventoryDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="ContactID" />
@@ -33,8 +33,8 @@
           </Key>
           <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VendorID" Type="int" Nullable="false" />
-          <Property Name="DateOrdered" Type="datetime" Nullable="false" />
-          <Property Name="DateReceived" Type="datetime" />
+          <Property Name="DateOrdered" Type="date" />
+          <Property Name="DateReceived" Type="date" />
           <Property Name="TotalPrice" Type="float" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
@@ -62,11 +62,12 @@
             <PropertyRef Name="QuoteID" />
           </Key>
           <Property Name="QuoteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Date" Type="datetime" />
+          <Property Name="Date" Type="date" />
           <Property Name="VendorID" Type="int" />
           <Property Name="ProductID" Type="int" />
           <Property Name="TotalCost" Type="float" />
           <Property Name="OrderID" Type="int" />
+          <Property Name="QuoteName" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="QuoteLine">
           <Key>
@@ -269,8 +270,7 @@
             <End Role="Vendor" EntitySet="Vendor" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="InventoryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -304,8 +304,8 @@
           </Key>
           <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VendorID" Type="Int32" Nullable="false" />
-          <Property Name="DateOrdered" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DateReceived" Type="DateTime" Precision="3" />
+          <Property Name="DateOrdered" Type="DateTime" Precision="0" />
+          <Property Name="DateReceived" Type="DateTime" Precision="0" />
           <Property Name="TotalPrice" Type="Double" Nullable="false" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Vendor" Relationship="Self.FK_Order_Vendor" FromRole="Order" ToRole="Vendor" />
@@ -342,7 +342,7 @@
             <PropertyRef Name="QuoteID" />
           </Key>
           <Property Name="QuoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="VendorID" Type="Int32" />
           <Property Name="ProductID" Type="Int32" />
           <Property Name="TotalCost" Type="Double" />
@@ -351,6 +351,7 @@
           <NavigationProperty Name="Product" Relationship="Self.FK_Quote_Product" FromRole="Quote" ToRole="Product" />
           <NavigationProperty Name="Vendor" Relationship="Self.FK_Quote_Vendor" FromRole="Quote" ToRole="Vendor" />
           <NavigationProperty Name="QuoteLines" Relationship="Self.FK_QuoteLine_Quote" FromRole="Quote" ToRole="QuoteLine" />
+          <Property Name="QuoteName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="QuoteLine">
           <Key>
@@ -624,6 +625,7 @@
           <EntitySetMapping Name="Quotes">
             <EntityTypeMapping TypeName="InventoryDBModel.Quote">
               <MappingFragment StoreEntitySet="Quote">
+                <ScalarProperty Name="QuoteName" ColumnName="QuoteName" />
                 <ScalarProperty Name="QuoteID" ColumnName="QuoteID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="VendorID" ColumnName="VendorID" />

@@ -244,3 +244,9 @@ C:\Users\jnefu\Source\Repos\WebServiceC\InventoryManagement\InventoryManagement\
 C:\Users\jnefu\Source\Repos\WebServiceC\InventoryManagement\InventoryManagement\obj\Debug\InventoryManagement.csprojResolveAssemblyReference.cache
 C:\Users\jnefu\Source\Repos\WebServiceC\InventoryManagement\InventoryManagement\obj\Debug\InventoryManagement.dll
 C:\Users\jnefu\Source\Repos\WebServiceC\InventoryManagement\InventoryManagement\obj\Debug\InventoryManagement.pdb
+C:\git\InventoryManagement\InventoryManagement\bin\System.Net.Http.Formatting.dll
+C:\git\InventoryManagement\InventoryManagement\bin\System.Web.Http.dll
+C:\git\InventoryManagement\InventoryManagement\bin\System.Web.Http.WebHost.dll
+C:\git\InventoryManagement\InventoryManagement\bin\System.Net.Http.Formatting.xml
+C:\git\InventoryManagement\InventoryManagement\bin\System.Web.Http.xml
+C:\git\InventoryManagement\InventoryManagement\bin\System.Web.Http.WebHost.xml

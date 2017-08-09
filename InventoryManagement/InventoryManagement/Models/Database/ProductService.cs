@@ -22,7 +22,21 @@ namespace InventoryManagement.Models.Database
 
         public static void EditProduct(Product product)
         {
-            db.Entry(product).State = EntityState.Modified;
+            db.Products.FirstOrDefault(c => c.ProductID == product.ProductID).Name = product.Name;
+            db.Products.FirstOrDefault(c => c.ProductID == product.ProductID).Type = product.Type;
+            db.Products.FirstOrDefault(c => c.ProductID == product.ProductID).Units = product.Units;
+            db.SaveChanges();
+        }
+
+        public static void AddProduct(Product product)
+        {
+            db.Products.Add(product);
+            db.SaveChanges();
+        }
+
+        public static void DeleteProductById(Product product)
+        {
+            db.Products.Remove(product);
             db.SaveChanges();
         }
     }

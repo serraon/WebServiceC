@@ -13,15 +13,15 @@ namespace InventoryManagement.Controllers
 {
     public class ProductController : Controller
     {
- //       private InventoryDBEntities db = new InventoryDBEntities();
+        //private InventoryDBEntities db = new InventoryDBEntities();
 
         // GET: Product
         public ActionResult Index()
         {
-            List<Product> products = ProductService.GetProducts();
-            return View(products);
+            //db.Products.Select(p => p.Type)
+            return View(ProductService.GetProducts());
         }
-/*
+
         // GET: Product/Details/5
         public ActionResult Details(int? id)
         {
@@ -29,7 +29,7 @@ namespace InventoryManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = ProductService.GetProductById(id.GetValueOrDefault());
             if (product == null)
             {
                 return HttpNotFound();
@@ -52,14 +52,13 @@ namespace InventoryManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Products.Add(product);
-                db.SaveChanges();
+                ProductService.AddProduct(product);
                 return RedirectToAction("Index");
             }
 
             return View(product);
         }
-        */
+
         // GET: Product/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -82,14 +81,17 @@ namespace InventoryManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProductID,Type,Name,Units")] Product product)
         {
+            
+            
             if (ModelState.IsValid)
             {
                 ProductService.EditProduct(product);
                 return RedirectToAction("Index");
             }
+            
             return View(product);
         }
-        /*
+
         // GET: Product/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -97,7 +99,7 @@ namespace InventoryManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = ProductService.GetProductById(id.GetValueOrDefault());
             if (product == null)
             {
                 return HttpNotFound();
@@ -110,12 +112,12 @@ namespace InventoryManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
-            db.SaveChanges();
+            Product product = ProductService.GetProductById(id);
+            ProductService.DeleteProductById(product);
             return RedirectToAction("Index");
         }
 
+        /*
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -123,6 +125,7 @@ namespace InventoryManagement.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }  */
+        }
+        */
     }
 }
