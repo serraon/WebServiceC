@@ -12,7 +12,7 @@ namespace InventoryManagement.Models.Database
 
         public static List<Product> GetProducts()
         {
-            return db.Products.OrderBy(x => x.Name).ToList();
+            return db.Products.OrderBy(x => x.Type).ToList();
         }
 
         public static Product GetProductById(int id)
