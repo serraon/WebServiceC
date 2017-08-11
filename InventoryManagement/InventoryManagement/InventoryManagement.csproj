@@ -375,6 +375,7 @@
     <Content Include="Content\images\icons-png\user-white.png" />
     <Content Include="Content\images\icons-png\video-black.png" />
     <Content Include="Content\images\icons-png\video-white.png" />
+    <Content Include="Content\JavaScriptTest.js" />
     <Content Include="Content\jquery.mobile.icons.min.css" />
     <Content Include="Content\Sand.css" />
     <Content Include="Content\Sand.min.css" />

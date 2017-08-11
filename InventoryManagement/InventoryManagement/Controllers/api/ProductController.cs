@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
+
 
 namespace InventoryManagement.Controllers.Api
 {
     public class ProductController : ApiController
     {
-        [System.Web.Http.HttpGet]
-        public IEnumerable<string> GetProductType()
+        [HttpGet]
+        public List<string> GetProductType()
         {
-            return ProductService.GetProducts().Select(y => y.Type);
+            return ProductService.GetProducts().Select(y => y.Type).Distinct().ToList();
         }
     }
 }
