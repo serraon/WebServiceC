@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 
 namespace InventoryManagement.Controllers.Api
 {
-    public class ProductsController : Controller
+    public class ProductController : ApiController
     {
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IEnumerable<string> GetProductType()
         {
             return ProductService.GetProducts().Select(y => y.Type);
