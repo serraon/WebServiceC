@@ -14,12 +14,6 @@ namespace InventoryManagement.Models
     
     public partial class Contact
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Contact()
-        {
-            this.Vendors = new HashSet<Vendor>();
-        }
-    
         public int ContactID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -28,8 +22,9 @@ namespace InventoryManagement.Models
         public string Province { get; set; }
         public string Country { get; set; }
         public string ZipCode { get; set; }
+        public Nullable<int> VendorID { get; set; }
+        public string City { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vendor> Vendors { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }

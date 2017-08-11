@@ -12,6 +12,8 @@
     <Property Name="Province" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Country" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="ZipCode" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VendorID" Type="int" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Inventory">
     <Key>
@@ -74,7 +76,7 @@
     <Property Name="Cost" Type="float" />
     <Property Name="Quantity" Type="int" />
   </EntityType>
-  <EntityType Name="Role">
+  <EntityType Name="User">
     <Key>
       <PropertyRef Name="Username" />
     </Key>
@@ -83,7 +85,6 @@
     <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="EmployeeID" Type="varchar" MaxLength="20" />
-    <Property Name="RoleName" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Vendor">
     <Key>
@@ -92,8 +93,19 @@
     <Property Name="VendorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="VendorType" Type="varchar" MaxLength="20" />
     <Property Name="CompanyName" Type="varchar" MaxLength="50" />
-    <Property Name="ContactID" Type="int" />
   </EntityType>
+  <Association Name="FK_Contact_Vendor">
+    <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+    <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vendor">
+        <PropertyRef Name="VendorID" />
+      </Principal>
+      <Dependent Role="Contact">
+        <PropertyRef Name="VendorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Inventory_ProductID">
     <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
     <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
@@ -202,18 +214,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Vendor_Contact">
-    <End Role="Contact" Type="Self.Contact" Multiplicity="0..1" />
-    <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Contact">
-        <PropertyRef Name="ContactID" />
-      </Principal>
-      <Dependent Role="Vendor">
-        <PropertyRef Name="ContactID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="InventoryDBModelStoreContainer">
     <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
@@ -222,8 +222,12 @@
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuoteLine" EntityType="Self.QuoteLine" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Contact_Vendor" Association="Self.FK_Contact_Vendor">
+      <End Role="Vendor" EntitySet="Vendor" />
+      <End Role="Contact" EntitySet="Contact" />
+    </AssociationSet>
     <AssociationSet Name="FK_Inventory_ProductID" Association="Self.FK_Inventory_ProductID">
       <End Role="Product" EntitySet="Product" />
       <End Role="Inventory" EntitySet="Inventory" />
@@ -259,10 +263,6 @@
     <AssociationSet Name="FK_QuoteLine_Quote" Association="Self.FK_QuoteLine_Quote">
       <End Role="Quote" EntitySet="Quote" />
       <End Role="QuoteLine" EntitySet="QuoteLine" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Vendor_Contact" Association="Self.FK_Vendor_Contact">
-      <End Role="Contact" EntitySet="Contact" />
-      <End Role="Vendor" EntitySet="Vendor" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

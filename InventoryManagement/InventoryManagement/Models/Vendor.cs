@@ -17,6 +17,7 @@ namespace InventoryManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Vendor()
         {
+            this.Contacts = new HashSet<Contact>();
             this.Orders = new HashSet<Order>();
             this.Quotes = new HashSet<Quote>();
         }
@@ -24,9 +25,9 @@ namespace InventoryManagement.Models
         public int VendorID { get; set; }
         public string VendorType { get; set; }
         public string CompanyName { get; set; }
-        public Nullable<int> ContactID { get; set; }
     
-        public virtual Contact Contact { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Contact> Contacts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

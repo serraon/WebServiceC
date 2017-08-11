@@ -17,6 +17,8 @@
           <Property Name="Province" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Country" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ZipCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VendorID" Type="int" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Inventory">
           <Key>
@@ -79,7 +81,7 @@
           <Property Name="Cost" Type="float" />
           <Property Name="Quantity" Type="int" />
         </EntityType>
-        <EntityType Name="Role">
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="Username" />
           </Key>
@@ -88,7 +90,6 @@
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="EmployeeID" Type="varchar" MaxLength="20" />
-          <Property Name="RoleName" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -97,8 +98,19 @@
           <Property Name="VendorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VendorType" Type="varchar" MaxLength="20" />
           <Property Name="CompanyName" Type="varchar" MaxLength="50" />
-          <Property Name="ContactID" Type="int" />
         </EntityType>
+        <Association Name="FK_Contact_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="VendorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Inventory_ProductID">
           <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
           <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
@@ -207,18 +219,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Vendor_Contact">
-          <End Role="Contact" Type="Self.Contact" Multiplicity="0..1" />
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contact">
-              <PropertyRef Name="ContactID" />
-            </Principal>
-            <Dependent Role="Vendor">
-              <PropertyRef Name="ContactID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="InventoryDBModelStoreContainer">
           <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
@@ -227,8 +227,12 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuoteLine" EntityType="Self.QuoteLine" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Contact_Vendor" Association="Self.FK_Contact_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Contact" EntitySet="Contact" />
+          </AssociationSet>
           <AssociationSet Name="FK_Inventory_ProductID" Association="Self.FK_Inventory_ProductID">
             <End Role="Product" EntitySet="Product" />
             <End Role="Inventory" EntitySet="Inventory" />
@@ -265,10 +269,6 @@
             <End Role="Quote" EntitySet="Quote" />
             <End Role="QuoteLine" EntitySet="QuoteLine" />
           </AssociationSet>
-          <AssociationSet Name="FK_Vendor_Contact" Association="Self.FK_Vendor_Contact">
-            <End Role="Contact" EntitySet="Contact" />
-            <End Role="Vendor" EntitySet="Vendor" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -286,7 +286,9 @@
           <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Vendors" Relationship="Self.FK_Vendor_Contact" FromRole="Contact" ToRole="Vendor" />
+          <Property Name="VendorID" Type="Int32" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vendor" Relationship="InventoryDBModel.FK_Contact_Vendor" FromRole="Contact" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="Inventory">
           <Key>
@@ -308,9 +310,9 @@
           <Property Name="DateReceived" Type="DateTime" Precision="0" />
           <Property Name="TotalPrice" Type="Double" Nullable="false" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Vendor" Relationship="Self.FK_Order_Vendor" FromRole="Order" ToRole="Vendor" />
           <NavigationProperty Name="OrderLines" Relationship="Self.FK_OrderLine_Order" FromRole="Order" ToRole="OrderLine" />
           <NavigationProperty Name="Quotes" Relationship="Self.FK_Quote_Order" FromRole="Order" ToRole="Quote" />
+          <NavigationProperty Name="Vendor" Relationship="InventoryDBModel.FK_Order_Vendor" FromRole="Order" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="OrderLine">
           <Key>
@@ -349,9 +351,9 @@
           <Property Name="OrderID" Type="Int32" />
           <NavigationProperty Name="Order" Relationship="Self.FK_Quote_Order" FromRole="Quote" ToRole="Order" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Quote_Product" FromRole="Quote" ToRole="Product" />
-          <NavigationProperty Name="Vendor" Relationship="Self.FK_Quote_Vendor" FromRole="Quote" ToRole="Vendor" />
           <NavigationProperty Name="QuoteLines" Relationship="Self.FK_QuoteLine_Quote" FromRole="Quote" ToRole="QuoteLine" />
           <Property Name="QuoteName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vendor" Relationship="InventoryDBModel.FK_Quote_Vendor" FromRole="Quote" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="QuoteLine">
           <Key>
@@ -365,41 +367,6 @@
           <NavigationProperty Name="Product" Relationship="Self.FK_QuoteLine_Product" FromRole="QuoteLine" ToRole="Product" />
           <NavigationProperty Name="Quote" Relationship="Self.FK_QuoteLine_Quote" FromRole="QuoteLine" ToRole="Quote" />
         </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="Username" />
-          </Key>
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EmployeeID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Vendor">
-          <Key>
-            <PropertyRef Name="VendorID" />
-          </Key>
-          <Property Name="VendorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VendorType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ContactID" Type="Int32" />
-          <NavigationProperty Name="Contact" Relationship="Self.FK_Vendor_Contact" FromRole="Vendor" ToRole="Contact" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Vendor" FromRole="Vendor" ToRole="Order" />
-          <NavigationProperty Name="Quotes" Relationship="Self.FK_Quote_Vendor" FromRole="Vendor" ToRole="Quote" />
-        </EntityType>
-        <Association Name="FK_Vendor_Contact">
-          <End Role="Contact" Type="Self.Contact" Multiplicity="0..1" />
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contact">
-              <PropertyRef Name="ContactID" />
-            </Principal>
-            <Dependent Role="Vendor">
-              <PropertyRef Name="ContactID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Inventory_ProductID">
           <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
           <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
@@ -409,18 +376,6 @@
             </Principal>
             <Dependent Role="Inventory">
               <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Vendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorID" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="VendorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -484,18 +439,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Quote_Vendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1" />
-          <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="VendorID" />
-            </Principal>
-            <Dependent Role="Quote">
-              <PropertyRef Name="VendorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_QuoteLine_Quote">
           <End Role="Quote" Type="Self.Quote" Multiplicity="0..1" />
           <End Role="QuoteLine" Type="Self.QuoteLine" Multiplicity="*" />
@@ -516,19 +459,9 @@
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Quotes" EntityType="Self.Quote" />
           <EntitySet Name="QuoteLines" EntityType="Self.QuoteLine" />
-          <EntitySet Name="Roles" EntityType="Self.Role" />
-          <EntitySet Name="Vendors" EntityType="Self.Vendor" />
-          <AssociationSet Name="FK_Vendor_Contact" Association="Self.FK_Vendor_Contact">
-            <End Role="Contact" EntitySet="Contacts" />
-            <End Role="Vendor" EntitySet="Vendors" />
-          </AssociationSet>
           <AssociationSet Name="FK_Inventory_ProductID" Association="Self.FK_Inventory_ProductID">
             <End Role="Product" EntitySet="Products" />
             <End Role="Inventory" EntitySet="Inventories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Vendor" Association="Self.FK_Order_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderLine_Order" Association="Self.FK_OrderLine_Order">
             <End Role="Order" EntitySet="Orders" />
@@ -550,15 +483,82 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="QuoteLine" EntitySet="QuoteLines" />
           </AssociationSet>
-          <AssociationSet Name="FK_Quote_Vendor" Association="Self.FK_Quote_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="Quote" EntitySet="Quotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_QuoteLine_Quote" Association="Self.FK_QuoteLine_Quote">
             <End Role="Quote" EntitySet="Quotes" />
             <End Role="QuoteLine" EntitySet="QuoteLines" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="InventoryDBModel.User" />
+          <EntitySet Name="Vendors" EntityType="InventoryDBModel.Vendor" />
+          <AssociationSet Name="FK_Contact_Vendor" Association="InventoryDBModel.FK_Contact_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Vendor" Association="InventoryDBModel.FK_Order_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quote_Vendor" Association="InventoryDBModel.FK_Quote_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Quote" EntitySet="Quotes" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="VendorID" />
+          </Key>
+          <Property Name="VendorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contacts" Relationship="InventoryDBModel.FK_Contact_Vendor" FromRole="Vendor" ToRole="Contact" />
+          <NavigationProperty Name="Orders" Relationship="InventoryDBModel.FK_Order_Vendor" FromRole="Vendor" ToRole="Order" />
+          <NavigationProperty Name="Quotes" Relationship="InventoryDBModel.FK_Quote_Vendor" FromRole="Vendor" ToRole="Quote" />
+        </EntityType>
+        <Association Name="FK_Contact_Vendor">
+          <End Type="InventoryDBModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="InventoryDBModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorID" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="VendorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Vendor">
+          <End Type="InventoryDBModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="InventoryDBModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="VendorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quote_Vendor">
+          <End Type="InventoryDBModel.Vendor" Role="Vendor" Multiplicity="0..1" />
+          <End Type="InventoryDBModel.Quote" Role="Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorID" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="VendorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -568,6 +568,8 @@
           <EntitySetMapping Name="Contacts">
             <EntityTypeMapping TypeName="InventoryDBModel.Contact">
               <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="VendorID" ColumnName="VendorID" />
                 <ScalarProperty Name="ContactID" ColumnName="ContactID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -646,25 +648,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="InventoryDBModel.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="InventoryDBModel.User">
+              <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vendors">
             <EntityTypeMapping TypeName="InventoryDBModel.Vendor">
               <MappingFragment StoreEntitySet="Vendor">
-                <ScalarProperty Name="VendorID" ColumnName="VendorID" />
-                <ScalarProperty Name="VendorType" ColumnName="VendorType" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="VendorType" ColumnName="VendorType" />
+                <ScalarProperty Name="VendorID" ColumnName="VendorID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

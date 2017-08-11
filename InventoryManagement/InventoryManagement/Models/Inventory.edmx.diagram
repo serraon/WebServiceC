@@ -12,18 +12,18 @@
         <EntityTypeShape EntityType="InventoryDBModel.Product" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryDBModel.Quote" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryDBModel.QuoteLine" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryDBModel.Role" Width="1.5" PointX="5.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryDBModel.Vendor" Width="1.5" PointX="1.5" PointY="8.375" IsExpanded="true" />
-        <AssociationConnector Association="InventoryDBModel.FK_Vendor_Contact" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_Inventory_ProductID" ManuallyRouted="false" />
-        <AssociationConnector Association="InventoryDBModel.FK_Order_Vendor" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_OrderLine_Order" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_Quote_Order" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_OrderLine_Product" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_Quote_Product" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_QuoteLine_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="InventoryDBModel.FK_Quote_Vendor" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_QuoteLine_Quote" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="InventoryDBModel.User" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="InventoryDBModel.Vendor" Width="1.5" PointX="2" PointY="8.125" />
+        <AssociationConnector Association="InventoryDBModel.FK_Contact_Vendor" />
+        <AssociationConnector Association="InventoryDBModel.FK_Order_Vendor" />
+        <AssociationConnector Association="InventoryDBModel.FK_Quote_Vendor" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4,6 +4,8 @@
     <EntitySetMapping Name="Contacts">
       <EntityTypeMapping TypeName="InventoryDBModel.Contact">
         <MappingFragment StoreEntitySet="Contact">
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="VendorID" ColumnName="VendorID" />
           <ScalarProperty Name="ContactID" ColumnName="ContactID" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -82,25 +84,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Roles">
-      <EntityTypeMapping TypeName="InventoryDBModel.Role">
-        <MappingFragment StoreEntitySet="Role">
-          <ScalarProperty Name="Username" ColumnName="Username" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="InventoryDBModel.User">
+        <MappingFragment StoreEntitySet="User">
           <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Vendors">
       <EntityTypeMapping TypeName="InventoryDBModel.Vendor">
         <MappingFragment StoreEntitySet="Vendor">
-          <ScalarProperty Name="VendorID" ColumnName="VendorID" />
-          <ScalarProperty Name="VendorType" ColumnName="VendorType" />
           <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-          <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+          <ScalarProperty Name="VendorType" ColumnName="VendorType" />
+          <ScalarProperty Name="VendorID" ColumnName="VendorID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

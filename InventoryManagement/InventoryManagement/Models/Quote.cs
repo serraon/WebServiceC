@@ -30,8 +30,8 @@ namespace InventoryManagement.Models
     
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
-        public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuoteLine> QuoteLines { get; set; }
+        public virtual Vendor Vendor { get; set; }
     }
 }
