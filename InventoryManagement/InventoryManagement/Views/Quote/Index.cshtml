@@ -15,19 +15,10 @@
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TotalCost)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.QuoteName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Order.OrderID)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Product.Type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Vendor.VendorType)
         </th>
         <th></th>
     </tr>
@@ -38,19 +29,10 @@
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TotalCost)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.QuoteName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Order.OrderID)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Product.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Vendor.VendorType)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.QuoteID }) |

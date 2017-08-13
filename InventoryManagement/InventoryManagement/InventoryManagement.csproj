@@ -211,6 +211,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\api\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -222,9 +223,11 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Controllers\api\ProductController.cs" />
+    <Compile Include="Models\Database\EmailVendorService.cs" />
     <Compile Include="Models\Contact.cs">
       <DependentUpon>Inventory.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Database\ContactService.cs" />
     <Compile Include="Models\Database\OrderService.cs" />
     <Compile Include="Models\Database\ProductService.cs" />
     <Compile Include="Models\Database\QuoteService.cs" />
@@ -269,6 +272,7 @@
     <Compile Include="Models\Vendor.cs">
       <DependentUpon>Inventory.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewData\QuoteVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -552,7 +556,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\Api\" />
-    <Folder Include="Models\ViewData\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
