@@ -13,5 +13,15 @@ namespace InventoryManagement.Models.Database
         {
             return db.Contacts.Where(x => x.VendorID == vendorid).First();
         }
+
+        public static List<Contact> GetContacts()
+        {
+            return db.Contacts.OrderBy(x => x.ContactID).ToList();
+        }
+
+        public static List<Contact> GetContactsPerVendor(Vendor vendor)
+        {
+            return db.Contacts.Where(x => x.VendorID == vendor.VendorID).ToList();
+        }
     }
 }

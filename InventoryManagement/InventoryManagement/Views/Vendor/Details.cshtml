@@ -1,34 +1,86 @@
-﻿@model InventoryManagement.Models.Vendor
+﻿@model InventoryManagement.Models.ViewModel.VendorContactViewModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Vendor Details</h2>
 
 <div>
-    <h4>Vendor</h4>
+    <h4>@Model.Vendor.CompanyName</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.VendorType)
+            Company Name:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VendorType)
+            @Model.Vendor.CompanyName
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            Vendor Type:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CompanyName)
+            @Model.Vendor.VendorType
         </dd>
 
     </dl>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Vendor.VendorID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </div>
+<hr />
+
+<h4>Contacts</h4>
+
+@if (Model.Contacts.Count == 0)
+{
+    <p>There are no contacts.</p>
+}
+
+else
+{
+<table class="table products table-striped">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Address
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contact in Model.Contacts)
+        {
+            <tr>
+                <td>
+                    @contact.FirstName @contact.LastName
+                </td>
+                <td>
+                    @contact.EmailAddress
+                </td>
+                <td>
+                    @contact.Street @contact.City @contact.Province @contact.Country @contact.ZipCode
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Contact", new { id = contact.ContactID }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Contact", new { id = contact.ContactID }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.VendorID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("New Contact", "Create", "Contact", new { id = Model.Vendor.VendorID }, null) 
 </p>

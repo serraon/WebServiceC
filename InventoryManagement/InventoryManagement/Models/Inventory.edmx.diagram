@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="62c1aaa0547844eaae53822e7ff9de37" Name="Diagram1">
-        <EntityTypeShape EntityType="InventoryDBModel.Contact" Width="1.5" PointX="1.5" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryDBModel.Inventory" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+      <Diagram DiagramId="62c1aaa0547844eaae53822e7ff9de37" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="InventoryDBModel.Contact" Width="1.5" PointX="10.375" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryDBModel.Inventory" Width="1.5" PointX="3.125" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryDBModel.Order" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryDBModel.OrderLine" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryDBModel.Product" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryDBModel.Quote" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryDBModel.QuoteLine" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryDBModel.OrderLine" Width="1.5" PointX="3.625" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryDBModel.Product" Width="1.5" PointX="0.875" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryDBModel.Quote" Width="1.5" PointX="6.125" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryDBModel.QuoteLine" Width="1.5" PointX="8.375" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="InventoryDBModel.FK_Inventory_ProductID" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_OrderLine_Order" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_Quote_Order" ManuallyRouted="false" />
@@ -20,7 +20,7 @@
         <AssociationConnector Association="InventoryDBModel.FK_QuoteLine_Product" ManuallyRouted="false" />
         <AssociationConnector Association="InventoryDBModel.FK_QuoteLine_Quote" ManuallyRouted="false" />
         <EntityTypeShape EntityType="InventoryDBModel.User" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="InventoryDBModel.Vendor" Width="1.5" PointX="2" PointY="8.125" />
+        <EntityTypeShape EntityType="InventoryDBModel.Vendor" Width="1.5" PointX="9.75" PointY="0.875" />
         <AssociationConnector Association="InventoryDBModel.FK_Contact_Vendor" />
         <AssociationConnector Association="InventoryDBModel.FK_Order_Vendor" />
         <AssociationConnector Association="InventoryDBModel.FK_Quote_Vendor" />

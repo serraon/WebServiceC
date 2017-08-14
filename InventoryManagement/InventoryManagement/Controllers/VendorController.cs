@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using InventoryManagement.Models;
+using InventoryManagement.Models.Database;
+using InventoryManagement.Models.ViewModel;
 
 namespace InventoryManagement.Controllers
 {
@@ -17,22 +19,38 @@ namespace InventoryManagement.Controllers
         // GET: Vendor
         public ActionResult Index()
         {
-            return View(db.Vendors.ToList());
+            var vendors = VendorService.GetVendors();
+            return View(vendors);
         }
 
-        // GET: Vendor/Details/5
+        // GET: Vendor/Details/1
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Vendor vendor = db.Vendors.Find(id);
             if (vendor == null)
             {
                 return HttpNotFound();
             }
-            return View(vendor);
+
+            var contacts = ContactService.GetContactsPerVendor(vendor);
+            if (contacts == null)
+            {
+                return HttpNotFound();
+            }
+
+            var vendorContactViewModel = new VendorContactViewModel
+            {
+                Vendor = vendor,
+                Contacts = contacts
+            };
+
+
+            return View(vendorContactViewModel);
         }
 
         // GET: Vendor/Create
@@ -97,10 +115,19 @@ namespace InventoryManagement.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Vendor vendor = db.Vendors.Find(id);
+
             if (vendor == null)
             {
                 return HttpNotFound();
             }
+
+            var contacts = ContactService.GetContactsPerVendor(vendor);
+
+            foreach (var contact in contacts)
+            {
+                db.Contacts.Remove(contact);
+            }
+
             return View(vendor);
         }
 
