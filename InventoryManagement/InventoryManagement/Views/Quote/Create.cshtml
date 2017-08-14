@@ -122,11 +122,12 @@
     <script>
         $(document).ready(function () {
             $("#divContactName").hide();
+            var vendorId = $('#ddCompanyName').val();
+            $("#vendorid").val($('#ddCompanyName').val());
         });
 
         $("#qtyprod").change(function () {
             $('#qty').val($("#qtyprod").val());
-            alert($('#qty').val());
         });
 
         $("#ddCompanyName").change(function () {
